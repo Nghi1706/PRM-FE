@@ -1,0 +1,111 @@
+// CORE SCSS VARIABLES
+// ------------------------------
+
+// FONT VARIABLES
+// ------------------------------
+$font-family-base: 'Roboto', 'Helvetica Neue', sans-serif;
+$font-family-secondary: 'Arial', sans-serif;
+
+// FONT SIZES
+// ------------------------------
+$font-size-base: 16px;
+$font-size-xs: 0.75rem; // 12px
+$font-size-sm: 0.875rem; // 14px
+$font-size-md: 1rem; // 16px
+$font-size-lg: 1.25rem; // 20px
+$font-size-xl: 1.5rem; // 24px
+$font-size-2xl: 2rem; // 32px
+
+// FONT WEIGHTS
+// ------------------------------
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+// COLOR PALETTE
+// ------------------------------
+// Màu chủ đạo: Xanh dương đậm và màu cam làm điểm nhấn
+// Ghi chú: Đây là màu chủ đạo của app, dùng cho header, buttons,...
+$color-primary: #1976d2; // Màu xanh dương đậm - màu chính
+$color-primary-light: #4791db;
+$color-primary-dark: #115293;
+
+$color-accent: #ff9800; // Màu cam - màu nhấn
+$color-accent-light: #ffb74d;
+$color-accent-dark: #f57c00;
+
+$color-warn: #f44336; // Màu đỏ - cảnh báo
+$color-warn-light: #e57373;
+$color-warn-dark: #d32f2f;
+
+// Màu thành công, thông báo, cảnh báo
+$color-success: #4caf50; // Màu xanh lá - thành công
+$color-info: #2196f3; // Màu xanh dương - thông tin 
+$color-warning: #ff9800;
+$color-error: #f44336; // Màu cam - cảnh báo // Màu đỏ - lỗi
+
+// Màu xám
+$color-gray-50: #fafafa;
+$color-gray-100: #f5f5f5;
+$color-gray-200: #eeeeee;
+$color-gray-300: #e0e0e0;
+$color-gray-400: #bdbdbd;
+$color-gray-500: #9e9e9e;
+$color-gray-600: #757575;
+$color-gray-700: #616161;
+$color-gray-800: #424242;
+$color-gray-900: #212121;
+
+// Màu cơ bản
+$color-white: #ffffff;
+$color-black: #000000;
+
+// THEME COLORS
+// ------------------------------
+// Light Theme - chữ tối trên nền sáng
+$light-bg: $color-gray-50; // Nền sáng
+$light-bg-elevated: $color-white; // Nền thành phần nổi
+$light-text-primary: $color-gray-900; // Chữ chính tối
+$light-text-secondary: $color-gray-700; // Chữ phụ
+
+// Dark Theme - chữ sáng trên nền tối
+$dark-bg: #303030; // Nền tối
+$dark-bg-elevated: #424242; // Nền thành phần nổi
+$dark-text-primary: $color-white; // Chữ chính sáng
+$dark-text-secondary: $color-gray-300; // Chữ phụ
+
+// SPACING
+// ------------------------------
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 48px;
+
+// BORDER RADIUS
+// ------------------------------
+$border-radius-sm: 4px;
+$border-radius-md: 6px;
+$border-radius-lg: 8px;
+$border-radius-pill: 9999px;
+
+// SHADOWS
+// ------------------------------
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+$shadow-md: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+$shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+
+// TRANSITIONS
+// ------------------------------
+$transition-fast: 0.15s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.5s ease;
+
+// Z-INDEX
+// ------------------------------
+$z-index-dropdown: 1000;
+$z-index-modal: 2000;
+$z-index-overlay: 1500;
+$z-index-tooltip: 2500;

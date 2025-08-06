@@ -1,0 +1,96 @@
+// THEMES
+// ------------------------------
+@use 'variables' as vars;
+@use 'sass:map';
+
+// Ghi chú: Cấu trúc theme map để đảm bảo màu chữ tương phản với màu nền
+
+// Light theme map
+// Sử dụng chữ tối trên nền sáng để tạo độ tương phản cao
+$light-theme-map: (
+    // Colors
+    'primary': vars.$color-primary,
+    'primary-light': vars.$color-primary-light,
+    'primary-dark': vars.$color-primary-dark,
+    'accent': vars.$color-accent,
+    'accent-light': vars.$color-accent-light,
+    'accent-dark': vars.$color-accent-dark,
+    'warn': vars.$color-warn,
+
+    // Status colors
+    'success': vars.$color-success,
+    'info': vars.$color-info,
+    'warning': vars.$color-warning,
+    'error': vars.$color-error,
+
+    // Background colors
+    'background': vars.$light-bg,
+    'background-elevated': vars.$light-bg-elevated,
+    'surface': vars.$color-white,
+    'border': vars.$color-gray-300,
+    'divider': vars.$color-gray-200,
+
+    // Text colors - Tương phản với nền sáng
+    'text-primary': vars.$light-text-primary,
+    'text-secondary': vars.$light-text-secondary,
+    'text-hint': vars.$color-gray-500,
+    'text-disabled': vars.$color-gray-400,
+    'text-on-primary': vars.$color-white,
+    'text-on-accent': vars.$color-white,
+
+    // Status text colors - Đảm bảo độ tương phản cao
+    'text-success': darken(vars.$color-success, 10%),
+    'text-info': darken(vars.$color-info, 10%),
+    'text-warning': darken(vars.$color-warning, 10%),
+    'text-error': darken(vars.$color-error, 10%),
+);
+
+// Dark theme map
+// Sử dụng chữ sáng trên nền tối để tạo độ tương phản cao
+$dark-theme-map: (
+    // Colors
+    'primary': vars.$color-primary-light,
+    'primary-light': lighten(vars.$color-primary-light, 10%),
+    'primary-dark': vars.$color-primary,
+    'accent': vars.$color-accent-light,
+    'accent-light': lighten(vars.$color-accent-light, 10%),
+    'accent-dark': vars.$color-accent,
+    'warn': vars.$color-warn-light,
+
+    // Status colors - Sáng hơn để nổi bật trên nền tối
+    'success': lighten(vars.$color-success, 10%),
+    'info': lighten(vars.$color-info, 10%),
+    'warning': vars.$color-warning,
+    'error': vars.$color-warn-light,
+
+    // Background colors
+    'background': vars.$dark-bg,
+    'background-elevated': vars.$dark-bg-elevated,
+    'surface': #424242,
+    'border': #5f5f5f,
+    'divider': #5f5f5f,
+
+    // Text colors - Tương phản với nền tối
+    'text-primary': vars.$dark-text-primary,
+    'text-secondary': vars.$dark-text-secondary,
+    'text-hint': vars.$color-gray-400,
+    'text-disabled': vars.$color-gray-600,
+    'text-on-primary': vars.$color-white,
+    'text-on-accent': vars.$color-black,
+
+    // Status text colors - Đảm bảo độ tương phản cao
+    'text-success': lighten(vars.$color-success, 15%),
+    'text-info': lighten(vars.$color-info, 15%),
+    'text-warning': lighten(vars.$color-warning, 15%),
+    'text-error': lighten(vars.$color-error, 15%),
+);
+
+// Function to get theme value
+@function theme-value($theme, $key) {
+    @if map.has-key($theme, $key) {
+        @return map.get($theme, $key);
+    }
+
+    @error "Key '#{$key}' not found in theme map";
+    @return null;
+}

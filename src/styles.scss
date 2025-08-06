@@ -1,0 +1,22 @@
+/* 
+ * Global styles for Restaurant Management CMS
+ * Chúng ta đã tách styles thành các files có cấu trúc trong thư mục /styles
+ * File này chỉ dùng cho các override hoặc import thư viện bên ngoài
+ */
+
+/* Import thư viện bên ngoài */
+@import 'ngx-toastr/toastr';
+
+/* Một số styles cũ được giữ lại để tương thích */
+.full-width {
+  width: 100%;
+}
+
+/* Mọi style mới nên được thêm vào các file trong thư mục /styles 
+ * - _variables.scss: Biến màu, font, spacing
+ * - _typography.scss: Định dạng text
+ * - _themes.scss: Theme light/dark
+ * - _mixins.scss: Các utilities functions
+ * - main.scss: Import và định nghĩa styles chung
+ * - custom-theme.scss: Material theme config
+ */

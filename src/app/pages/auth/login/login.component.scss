@@ -1,0 +1,118 @@
+// Import biến và mixins từ hệ thống SCSS core
+@use '../../../../styles/variables' as vars;
+@use '../../../../styles/mixins' as mix;
+
+.login-container {
+  @include mix.flex-center;
+  height: 100vh;
+  background-color: var(--background);
+
+  // Responsive cho màn hình nhỏ
+  @include mix.respond-to('xs') {
+    padding: vars.$spacing-md;
+  }
+}
+
+.login-card-wrapper {
+  width: 100%;
+  max-width: 400px;
+  padding: 0 vars.$spacing-md;
+}
+
+.login-card {
+  padding: vars.$spacing-xl;
+  border-radius: vars.$border-radius-lg;
+  background-color: var(--surface);
+  @include mix.shadow('md');
+  transition: vars.$transition-normal;
+
+  &:hover {
+    @include mix.shadow('lg');
+  }
+}
+
+mat-card-header {
+  margin-bottom: vars.$spacing-lg;
+
+  mat-card-title {
+    font-size: vars.$font-size-xl;
+    font-weight: vars.$font-weight-bold;
+    color: var(--text-primary);
+    margin-bottom: vars.$spacing-sm;
+  }
+
+  mat-card-subtitle {
+    font-size: vars.$font-size-md;
+    color: var(--text-secondary);
+  }
+}
+
+.form-container {
+  @include mix.flex-column;
+  gap: vars.$spacing-md;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.login-actions {
+  margin-top: vars.$spacing-xl;
+  @include mix.flex-center;
+
+  button {
+    min-width: 120px;
+
+    &.mat-primary {
+      background-color: var(--primary);
+      color: var(--text-on-primary);
+
+      &:hover {
+        background-color: var(--primary-dark);
+      }
+    }
+  }
+}
+
+// Thêm class cho các chức năng khác
+.forgot-password {
+  margin-top: vars.$spacing-md;
+  text-align: center;
+
+  a {
+    color: var(--primary);
+    font-size: vars.$font-size-sm;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.login-button {
+  width: 100%;
+  height: 48px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.spinner-white {
+  ::ng-deep circle {
+    stroke: white;
+  }
+
+  margin: 0 auto;
+}
+
+/* Responsive styles for tablets and larger screens */
+@media screen and (min-width: 768px) {
+  .login-card-wrapper {
+    max-width: 450px;
+  }
+
+  .login-card {
+    padding: 32px;
+  }
+}
