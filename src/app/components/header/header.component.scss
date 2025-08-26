@@ -1,0 +1,122 @@
+@use '../../../styles/variables' as vars;
+@use '../../../styles/mixins' as mix;
+
+.header-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: vars.$z-index-header;
+  background-color: var(--primary);
+  color: var(--text-on-primary);
+  @include mix.shadow('md');
+  @include mix.transition(all, vars.$transition-normal, ease);
+  @include mix.flex-between;
+  height: 64px;
+  padding: 0 vars.$spacing-lg;
+
+  // Desktop behavior - co giãn theo sidebar
+  @include mix.respond-to('lg') {
+    // Khi sidebar mở (desktop)
+    &.nav-open {
+      left: 280px; // Width của sidebar
+      width: calc(100% - 280px);
+    }
+
+    // Khi sidebar đóng (desktop)
+    &.nav-closed {
+      left: 0;
+      width: 100%;
+    }
+
+    padding: 0 vars.$spacing-md;
+
+    // Màn hình lớn - sidebar rộng hơn
+    @include mix.respond-to('4k') {
+      &.nav-open {
+        left: 320px; // Width của sidebar lớn hơn
+        width: calc(100% - 320px);
+      }
+    }
+  }
+
+  // Tablet - responsive width
+  @include mix.respond-to('md') {
+    &.nav-open {
+      left: 250px; // Width nhỏ hơn trên tablet
+      width: calc(100% - 250px);
+    }
+
+    &.nav-closed {
+      left: 0;
+      width: 100%;
+    }
+  }
+
+  // Mobile behavior - luôn full width và height nhỏ hơn
+  @include mix.respond-to-max('md') {
+    left: 0 !important;
+    width: 100% !important;
+    height: 56px;
+    padding: 0 vars.$spacing-sm;
+  }
+}
+
+.app-title {
+  font-size: vars.$font-size-lg;
+  font-weight: vars.$font-weight-medium;
+  color: var(--text-on-primary);
+  margin-left: vars.$spacing-md;
+
+  @include mix.respond-to('md') {
+    font-size: vars.$font-size-md;
+    margin-left: vars.$spacing-sm;
+  }
+
+  @include mix.respond-to-max('sm') {
+    display: none; // Hide on mobile to save space
+  }
+}
+
+.spacer {
+  flex: 1;
+}
+
+.user-menu {
+  .user-button {
+    @include mix.flex-center;
+    gap: vars.$spacing-xs;
+    color: var(--text-on-primary);
+
+    mat-icon {
+      color: var(--text-on-primary);
+
+      &:hover {
+        color: var(--text-on-primary);
+      }
+    }
+
+    .user-name {
+      font-weight: vars.$font-weight-medium;
+
+      @include mix.respond-to-max('sm') {
+        display: none; // Hide username on mobile
+      }
+    }
+  }
+}
+
+// Menu toggle button styling
+button[mat-icon-button] {
+  width: 40px;
+  height: 40px;
+  color: var(--text-on-primary);
+
+  mat-icon {
+    color: var(--text-on-primary);
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}

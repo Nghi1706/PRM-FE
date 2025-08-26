@@ -4,7 +4,7 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -23,21 +23,24 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorMessage = '';
-        
+
         if (error.status === 401) {
           // Unauthorized, redirect to login
-          this.toastr.error('Your session has expired. Please log in again.', 'Authentication Error');
-          this.router.navigate(['/login']);
+          this.toastr.error(
+            'Your session has expired. Please log in again.',
+            'Authentication Error'
+          );
+          this.router.navigate(['/auth/login']);
         } else {
           // Use error handler service to get the error message
           const errorObj = error.error || {};
           errorMessage = errorObj.message || error.message || 'An unexpected error occurred';
           this.toastr.error(errorMessage, 'Error');
-          
+
           // Let the error handler service handle the error for logging
           this.errorService.handleError(error);
         }
-        
+
         return throwError(() => new Error(errorMessage));
       })
     );

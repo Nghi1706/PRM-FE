@@ -41,7 +41,7 @@ $color-warn-dark: #d32f2f;
 
 // Màu thành công, thông báo, cảnh báo
 $color-success: #4caf50; // Màu xanh lá - thành công
-$color-info: #2196f3; // Màu xanh dương - thông tin 
+$color-info: #2196f3; // Màu xanh dương - thông tin
 $color-warning: #ff9800;
 $color-error: #f44336; // Màu cam - cảnh báo // Màu đỏ - lỗi
 
@@ -93,9 +93,15 @@ $border-radius-pill: 9999px;
 
 // SHADOWS
 // ------------------------------
-$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-$shadow-md: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-$shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+$shadow-sm:
+  0 1px 3px rgba(0, 0, 0, 0.12),
+  0 1px 2px rgba(0, 0, 0, 0.24);
+$shadow-md:
+  0 3px 6px rgba(0, 0, 0, 0.16),
+  0 3px 6px rgba(0, 0, 0, 0.23);
+$shadow-lg:
+  0 10px 20px rgba(0, 0, 0, 0.19),
+  0 6px 6px rgba(0, 0, 0, 0.23);
 
 // TRANSITIONS
 // ------------------------------
@@ -106,6 +112,7 @@ $transition-slow: 0.5s ease;
 // Z-INDEX
 // ------------------------------
 $z-index-dropdown: 1000;
+$z-index-header: 1100;
 $z-index-modal: 2000;
 $z-index-overlay: 1500;
 $z-index-tooltip: 2500;

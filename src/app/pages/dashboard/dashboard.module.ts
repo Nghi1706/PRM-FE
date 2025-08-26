@@ -5,20 +5,14 @@ import { MaterialModule } from '../../shared/material.module';
 import { DashboardComponent } from './dashboard.component';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: DashboardComponent
-    }
+  {
+    path: '',
+    component: DashboardComponent,
+  },
 ];
 
 @NgModule({
-    declarations: [
-        DashboardComponent
-    ],
-    imports: [
-        CommonModule,
-        MaterialModule,
-        RouterModule.forChild(routes)
-    ]
+  declarations: [DashboardComponent],
+  imports: [CommonModule, MaterialModule, RouterModule.forChild(routes)],
 })
-export class DashboardModule { }
+export class DashboardModule {}

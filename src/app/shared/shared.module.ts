@@ -8,20 +8,14 @@ import { MaterialModule } from './material.module';
   declarations: [
     // Shared components will be declared here
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    MaterialModule
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, MaterialModule],
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    MaterialModule
+    MaterialModule,
     // Shared components will be exported here
-  ]
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

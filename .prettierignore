@@ -1,0 +1,24 @@
+# Build outputs
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
+# Dependencies
+node_modules/
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# Misc
+coverage/
+.nyc_output/
+.sass-cache/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Angular
+.angular/

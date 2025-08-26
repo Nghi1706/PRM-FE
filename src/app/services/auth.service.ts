@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 import { LS_KEYS } from '../constants/const';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private authSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
@@ -18,10 +18,11 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router
-  ) { }
+  ) {}
 
   login(credentials: LoginRequest): Observable<ApiResponse<LoginResponse>> {
-    return this.http.post<ApiResponse<LoginResponse>>(`${environment.apiUrl}/api/auth/login`, credentials)
+    return this.http
+      .post<ApiResponse<LoginResponse>>(`${environment.apiUrl}/api/auth/login`, credentials)
       .pipe(
         tap(response => {
           if (response.isSuccess && response.data) {
@@ -38,7 +39,21 @@ export class AuthService {
     localStorage.removeItem(LS_KEYS.REFRESH_TOKEN);
     localStorage.removeItem(LS_KEYS.USER);
     this.authSubject.next(false);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
+  }
+
+  clearStorageIfCorrupted(): void {
+    try {
+      // Kiểm tra xem localStorage có dữ liệu bị lỗi không
+      const user = localStorage.getItem(LS_KEYS.USER);
+      if (user && (user === 'undefined' || user === 'null')) {
+        console.warn('Corrupted user data found in localStorage, clearing...');
+        this.logout();
+      }
+    } catch (error) {
+      console.error('Error checking localStorage:', error);
+      this.logout();
+    }
   }
 
   saveToken(access_token: string, refresh_token: string): void {
@@ -47,7 +62,10 @@ export class AuthService {
   }
 
   getToken(): [string | null, string | null] {
-    return [localStorage.getItem(LS_KEYS.ACCESS_TOKEN), localStorage.getItem(LS_KEYS.REFRESH_TOKEN)];
+    return [
+      localStorage.getItem(LS_KEYS.ACCESS_TOKEN),
+      localStorage.getItem(LS_KEYS.REFRESH_TOKEN),
+    ];
   }
 
   saveUser(user: User): void {
@@ -56,12 +74,22 @@ export class AuthService {
 
   getUser(): User | null {
     const user = localStorage.getItem(LS_KEYS.USER);
-    return user ? JSON.parse(user) : null;
+    if (!user || user === 'undefined' || user === 'null') {
+      return null;
+    }
+    try {
+      return JSON.parse(user);
+    } catch (error) {
+      console.error('Error parsing user data from localStorage:', error);
+      localStorage.removeItem(LS_KEYS.USER);
+      return null;
+    }
   }
 
   isLoggedIn(): boolean {
     console.log('Checking if user is logged in...');
-    console.log(this.getToken());
-    return this.getToken()[0] !== null && this.getToken()[0] !== null;
+    const [accessToken, refreshToken] = this.getToken();
+    console.log([accessToken, refreshToken]);
+    return !!(accessToken && refreshToken && accessToken !== 'null' && refreshToken !== 'null');
   }
 }

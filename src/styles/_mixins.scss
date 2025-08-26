@@ -7,161 +7,176 @@
 // Theme application mixin
 // Giúp áp dụng các giá trị từ theme map
 @mixin apply-theme($theme-map) {
-    // Background colors
-    --background: #{themes.theme-value($theme-map, 'background')};
-    --background-elevated: #{themes.theme-value($theme-map, 'background-elevated')};
-    --surface: #{themes.theme-value($theme-map, 'surface')};
-    --border: #{themes.theme-value($theme-map, 'border')};
-    --divider: #{themes.theme-value($theme-map, 'divider')};
+  // Background colors
+  --background: #{themes.theme-value($theme-map, 'background')};
+  --background-elevated: #{themes.theme-value($theme-map, 'background-elevated')};
+  --surface: #{themes.theme-value($theme-map, 'surface')};
+  --border: #{themes.theme-value($theme-map, 'border')};
+  --divider: #{themes.theme-value($theme-map, 'divider')};
 
-    // Text colors - Đảm bảo độ tương phản cao với nền
-    --text-primary: #{themes.theme-value($theme-map, 'text-primary')};
-    --text-secondary: #{themes.theme-value($theme-map, 'text-secondary')};
-    --text-hint: #{themes.theme-value($theme-map, 'text-hint')};
-    --text-disabled: #{themes.theme-value($theme-map, 'text-disabled')};
+  // Text colors - Đảm bảo độ tương phản cao với nền
+  --text-primary: #{themes.theme-value($theme-map, 'text-primary')};
+  --text-secondary: #{themes.theme-value($theme-map, 'text-secondary')};
+  --text-hint: #{themes.theme-value($theme-map, 'text-hint')};
+  --text-disabled: #{themes.theme-value($theme-map, 'text-disabled')};
 
-    // Brand colors
-    --primary: #{themes.theme-value($theme-map, 'primary')};
-    --primary-light: #{themes.theme-value($theme-map, 'primary-light')};
-    --primary-dark: #{themes.theme-value($theme-map, 'primary-dark')};
-    --accent: #{themes.theme-value($theme-map, 'accent')};
-    --accent-light: #{themes.theme-value($theme-map, 'accent-light')};
-    --accent-dark: #{themes.theme-value($theme-map, 'accent-dark')};
-    --warn: #{themes.theme-value($theme-map, 'warn')};
+  // Brand colors
+  --primary: #{themes.theme-value($theme-map, 'primary')};
+  --primary-light: #{themes.theme-value($theme-map, 'primary-light')};
+  --primary-dark: #{themes.theme-value($theme-map, 'primary-dark')};
+  --accent: #{themes.theme-value($theme-map, 'accent')};
+  --accent-light: #{themes.theme-value($theme-map, 'accent-light')};
+  --accent-dark: #{themes.theme-value($theme-map, 'accent-dark')};
+  --warn: #{themes.theme-value($theme-map, 'warn')};
 
-    // Status colors
-    --success: #{themes.theme-value($theme-map, 'success')};
-    --info: #{themes.theme-value($theme-map, 'info')};
-    --warning: #{themes.theme-value($theme-map, 'warning')};
-    --error: #{themes.theme-value($theme-map, 'error')};
+  // Status colors
+  --success: #{themes.theme-value($theme-map, 'success')};
+  --info: #{themes.theme-value($theme-map, 'info')};
+  --warning: #{themes.theme-value($theme-map, 'warning')};
+  --error: #{themes.theme-value($theme-map, 'error')};
 
-    // Contrast text colors
-    --text-on-primary: #{themes.theme-value($theme-map, 'text-on-primary')};
-    --text-on-accent: #{themes.theme-value($theme-map, 'text-on-accent')};
+  // Contrast text colors
+  --text-on-primary: #{themes.theme-value($theme-map, 'text-on-primary')};
+  --text-on-accent: #{themes.theme-value($theme-map, 'text-on-accent')};
 
-    // Status text colors
-    --text-success: #{themes.theme-value($theme-map, 'text-success')};
-    --text-info: #{themes.theme-value($theme-map, 'text-info')};
-    --text-warning: #{themes.theme-value($theme-map, 'text-warning')};
-    --text-error: #{themes.theme-value($theme-map, 'text-error')};
+  // Status text colors
+  --text-success: #{themes.theme-value($theme-map, 'text-success')};
+  --text-info: #{themes.theme-value($theme-map, 'text-info')};
+  --text-warning: #{themes.theme-value($theme-map, 'text-warning')};
+  --text-error: #{themes.theme-value($theme-map, 'text-error')};
 }
 
 // Flexbox utilities
 @mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap) {
-    display: flex;
-    flex-direction: $direction;
-    justify-content: $justify;
-    align-items: $align;
-    flex-wrap: $wrap;
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
 }
 
 @mixin flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @mixin flex-between {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 @mixin flex-column {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 // Spacing utilities
 @mixin padding($top, $right: $top, $bottom: $top, $left: $right) {
-    padding: $top $right $bottom $left;
+  padding: $top $right $bottom $left;
 }
 
 @mixin margin($top, $right: $top, $bottom: $top, $left: $right) {
-    margin: $top $right $bottom $left;
+  margin: $top $right $bottom $left;
 }
 
 // Border and radius
 @mixin border($width: 1px, $style: solid, $color: var(--border)) {
-    border: $width $style $color;
+  border: $width $style $color;
 }
 
 @mixin rounded($radius: vars.$border-radius-md) {
-    border-radius: $radius;
+  border-radius: $radius;
 }
 
 // Shadow utilities
 @mixin shadow($level: 'md') {
-    @if $level =='sm' {
-        box-shadow: vars.$shadow-sm;
-    }
-
-    @else if $level =='md' {
-        box-shadow: vars.$shadow-md;
-    }
-
-    @else if $level =='lg' {
-        box-shadow: vars.$shadow-lg;
-    }
+  @if $level == 'sm' {
+    box-shadow: vars.$shadow-sm;
+  } @else if $level == 'md' {
+    box-shadow: vars.$shadow-md;
+  } @else if $level == 'lg' {
+    box-shadow: vars.$shadow-lg;
+  }
 }
 
 // Responsive breakpoints
 // Ghi chú: Responsive làm cho app thân thiện với người dùng trên mọi thiết bị
 @mixin respond-to($breakpoint) {
-    @if $breakpoint =='xs' {
-        @media (max-width: 575px) {
-            @content;
-        }
+  @if $breakpoint == 'xs' {
+    @media (max-width: 575px) {
+      @content;
     }
+  } @else if $breakpoint == 'sm' {
+    @media (min-width: 576px) {
+      @content;
+    }
+  } @else if $breakpoint == 'md' {
+    @media (min-width: 768px) {
+      @content;
+    }
+  } @else if $breakpoint == 'lg' {
+    @media (min-width: 992px) {
+      @content;
+    }
+  } @else if $breakpoint == 'xl' {
+    @media (min-width: 1200px) {
+      @content;
+    }
+  } @else if $breakpoint == 'xxl' {
+    @media (min-width: 1400px) {
+      @content;
+    }
+  } @else if $breakpoint == '4k' {
+    @media (min-width: 2560px) {
+      @content;
+    }
+  }
+}
 
-    @else if $breakpoint =='sm' {
-        @media (min-width: 576px) {
-            @content;
-        }
+// Responsive breakpoints for max-width
+@mixin respond-to-max($breakpoint) {
+  @if $breakpoint == 'xs' {
+    @media (max-width: 575px) {
+      @content;
     }
-
-    @else if $breakpoint =='md' {
-        @media (min-width: 768px) {
-            @content;
-        }
+  } @else if $breakpoint == 'sm' {
+    @media (max-width: 767px) {
+      @content;
     }
-
-    @else if $breakpoint =='lg' {
-        @media (min-width: 992px) {
-            @content;
-        }
+  } @else if $breakpoint == 'md' {
+    @media (max-width: 991px) {
+      @content;
     }
-
-    @else if $breakpoint =='xl' {
-        @media (min-width: 1200px) {
-            @content;
-        }
+  } @else if $breakpoint == 'lg' {
+    @media (max-width: 1199px) {
+      @content;
     }
-
-    @else if $breakpoint =='xxl' {
-        @media (min-width: 1400px) {
-            @content;
-        }
+  } @else if $breakpoint == 'xl' {
+    @media (max-width: 1399px) {
+      @content;
     }
+  }
 }
 
 // Truncate text with ellipsis
 @mixin text-truncate {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 // Accessibility - Focus styles
 // Ghi chú: Tạo focus styles rõ ràng giúp tăng khả năng tiếp cận
 @mixin focus-outline {
-    outline: 2px solid var(--primary);
-    outline-offset: 2px;
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 // Transition mixin
 @mixin transition($properties: all, $duration: vars.$transition-normal, $timing: ease) {
-    transition-property: $properties;
-    transition-duration: $duration;
-    transition-timing-function: $timing;
+  transition-property: $properties;
+  transition-duration: $duration;
+  transition-timing-function: $timing;
 }

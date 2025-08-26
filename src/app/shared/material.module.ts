@@ -40,11 +40,11 @@ const materialModules = [
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule
+  MatTooltipModule,
 ];
 
 @NgModule({
   imports: [...materialModules],
-  exports: [...materialModules]
+  exports: [...materialModules],
 })
-export class MaterialModule { }
+export class MaterialModule {}

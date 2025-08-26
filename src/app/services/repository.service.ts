@@ -5,12 +5,12 @@ import { environment } from '../../environments/environment';
 import { ApiResponse } from '../interface/api-response';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RepositoryService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   get<T>(endpoint: string, params?: HttpParams): Observable<ApiResponse<T>> {
     return this.http.get<ApiResponse<T>>(`${this.apiUrl}/${endpoint}`, { params });

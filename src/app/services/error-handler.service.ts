@@ -3,10 +3,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ErrorHandlerService {
-  constructor() { }
+  constructor() {}
 
   handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An unknown error occurred';
@@ -38,7 +38,7 @@ export class ErrorHandlerService {
     }
 
     console.error('API Error:', error);
-    
+
     // Return a new error observable with the formatted message
     return throwError(() => new Error(errorMessage));
   }

@@ -8,17 +8,18 @@ import { Component } from '@angular/core';
       <p>Welcome to the Restaurant Management System Dashboard</p>
     </div>
   `,
-  styles: [`
-    .dashboard-container {
-      padding: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    h1 {
-      margin-bottom: 16px;
-    }
-  `]
+  styles: [
+    `
+      .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        margin-bottom: 16px;
+      }
+    `,
+  ],
 })
 export class DashboardComponent {
   constructor() {}
