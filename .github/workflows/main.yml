@@ -1,0 +1,31 @@
+name: Update Issue Title with Prefix
+
+on:
+  issues:
+    types: [opened]  # chỉ chạy khi có issue mới
+
+jobs:
+  prefix_title:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Update Issue Title
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const issue_number = context.issue.number;
+          const original_title = context.payload.issue.title;
+
+          // Kiểm tra nếu tiêu đề đã có prefix thì không cần làm gì
+          if (!original_title.startsWith(`PRM-FE-${issue_number}`)) {
+            const new_title = `PRM-FE-${issue_number} ${original_title}`;
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue_number,
+              title: new_title
+            });
+            console.log(`Updated title to: ${new_title}`);
+          } else {
+            console.log("Title already prefixed. Skipping.");
+          }
