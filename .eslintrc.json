@@ -4,6 +4,10 @@
   "overrides": [
     {
       "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.json"],
+        "createDefaultProgram": true
+      },
       "extends": [
         "eslint:recommended",
         "@typescript-eslint/recommended",
