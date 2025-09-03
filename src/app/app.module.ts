@@ -6,7 +6,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { LayoutModule } from './shared/layout.module'; // Thêm import này
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
@@ -17,7 +16,6 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule,
     CoreModule,
     SharedModule,
-    LayoutModule, // Thêm module này
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-right',
