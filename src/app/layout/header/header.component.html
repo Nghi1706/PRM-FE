@@ -1,0 +1,14 @@
+<header>
+  <button mat-icon-button (click)="toggleNavbar.emit()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span class="title">PRM01 Restaurant Management</span>
+  <span class="spacer"></span>
+  <button
+    mat-icon-button
+    (click)="toggleTheme()"
+    [attr.aria-label]="(theme$ | async) === 'dark' ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối'"
+  >
+    <mat-icon>{{ (theme$ | async) === "dark" ? "light_mode" : "dark_mode" }}</mat-icon>
+  </button>
+</header>

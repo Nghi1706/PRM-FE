@@ -12,7 +12,7 @@ import { Component } from '@angular/core';
     `
       .dashboard-container {
         max-width: 1200px;
-        margin: 0 auto;
+        /* margin: 0 auto; */
       }
 
       h1 {

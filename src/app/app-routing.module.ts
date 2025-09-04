@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { LayoutComponent } from './layout/layout.component';
 
 const routes: Routes = [
   // Auth routes (không dùng layout) - thêm prefix 'auth'
@@ -12,6 +13,7 @@ const routes: Routes = [
   {
     path: '',
     canActivate: [AuthGuard],
+    component: LayoutComponent,
     children: [
       {
         path: 'dashboard',

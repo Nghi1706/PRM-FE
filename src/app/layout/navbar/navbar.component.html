@@ -1,0 +1,11 @@
+<nav [class.collapsed]="collapsed">
+  <a routerLink="/dashboard">
+    <mat-icon>dashboard</mat-icon>
+    <span *ngIf="!collapsed">Dashboard</span>
+  </a>
+  <a routerLink="/orders">
+    <mat-icon>receipt_long</mat-icon>
+    <span *ngIf="!collapsed">Orders</span>
+  </a>
+  <!-- Thêm các menu khác nếu cần -->
+</nav>
