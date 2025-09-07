@@ -1,0 +1,423 @@
+@use '../../../styles/variables' as vars;
+@use '../../../styles/mixins' as mixins;
+
+.users-container {
+  max-width: 100%;
+  // padding: vars.$spacing-lg;
+
+  .page-header {
+    margin-bottom: vars.$spacing-xl;
+
+    h1 {
+      font-size: vars.$font-size-2xl;
+      font-weight: vars.$font-weight-bold;
+      color: var(--text-primary);
+      margin-bottom: vars.$spacing-sm;
+    }
+
+    p {
+      color: var(--text-secondary);
+      font-size: vars.$font-size-md;
+    }
+  }
+
+  .actions-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: vars.$spacing-lg;
+    gap: vars.$spacing-md;
+
+    .search-field {
+      flex: 1;
+      max-width: 400px;
+    }
+
+    button[mat-raised-button] {
+      white-space: nowrap;
+
+      mat-icon {
+        margin-right: vars.$spacing-xs;
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: stretch;
+
+      .search-field {
+        max-width: none;
+        margin-bottom: vars.$spacing-sm;
+      }
+    }
+  }
+
+  .results-info {
+    margin-bottom: vars.$spacing-md;
+    display: flex;
+    justify-content: flex-end;
+
+    .total-count {
+      color: var(--text-secondary);
+      font-size: vars.$font-size-sm;
+      font-weight: vars.$font-weight-medium;
+    }
+  }
+
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: vars.$spacing-2xl;
+    gap: vars.$spacing-md;
+
+    p {
+      color: var(--text-secondary);
+      font-size: vars.$font-size-md;
+    }
+  }
+
+  .table-container {
+    background-color: var(--surface);
+    border-radius: vars.$border-radius-lg;
+    box-shadow: vars.$shadow-sm;
+    overflow: hidden;
+
+    .users-table {
+      width: 100%;
+
+      .mat-mdc-header-cell {
+        font-weight: vars.$font-weight-medium;
+        color: var(--text-primary);
+        font-size: vars.$font-size-sm;
+      }
+
+      .mat-mdc-cell {
+        border-bottom-color: var(--divider);
+        padding: vars.$spacing-md vars.$spacing-sm;
+      }
+
+      .mat-mdc-row:hover {
+        background-color: var(--background);
+      }
+
+      // Column width adjustments
+      .avatar-header,
+      .mat-column-avatar {
+        width: 100px;
+        min-width: 100px;
+        max-width: 100px;
+        text-align: center;
+
+        // Ensure header content is also centered
+        .mat-sort-header-container {
+          display: flex;
+          justify-content: center;
+        }
+      }
+
+      // Specific targeting for avatar header cell
+      .mat-mdc-header-cell.avatar-header {
+        text-align: center;
+
+        .mat-sort-header-container {
+          justify-content: center;
+        }
+      }
+
+      .email-header,
+      .mat-column-email {
+        width: 350px;
+        min-width: 280px;
+      }
+
+      .mat-column-name {
+        width: 150px;
+        min-width: 120px;
+      }
+
+      .mat-column-phone {
+        width: 130px;
+        min-width: 130px;
+      }
+
+      .mat-column-role {
+        width: 120px;
+        min-width: 100px;
+      }
+
+      .mat-column-status {
+        width: 100px;
+        min-width: 80px;
+      }
+
+      .mat-column-createdDate,
+      .mat-column-updatedDate {
+        width: 140px;
+        min-width: 120px;
+      }
+
+      .actions-header,
+      .mat-column-actions {
+        width: 120px;
+        min-width: 100px;
+        text-align: center;
+
+        .mat-sort-header-container {
+          justify-content: center;
+        }
+      }
+
+      // Avatar styling
+      .avatar-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+        .user-avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 2px solid var(--divider);
+        }
+      }
+
+      // Text styling
+      .user-name {
+        font-weight: vars.$font-weight-medium;
+        color: var(--text-primary);
+        font-size: vars.$font-size-md;
+      }
+
+      .email-cell {
+        .user-email {
+          color: var(--text-secondary);
+          font-size: vars.$font-size-sm;
+          word-break: break-word;
+          line-height: 1.4;
+        }
+      }
+
+      .user-phone {
+        color: var(--text-secondary);
+        font-size: vars.$font-size-sm;
+      }
+
+      .date-cell {
+        color: var(--text-secondary);
+        font-size: vars.$font-size-xs;
+        white-space: nowrap;
+      }
+
+      // Role badge styling
+      .role-badge {
+        display: inline-block;
+        padding: vars.$spacing-xs vars.$spacing-sm;
+        border-radius: vars.$border-radius-sm;
+        font-size: vars.$font-size-xs;
+        font-weight: vars.$font-weight-medium;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+
+        &.role-1 {
+          // Developer
+          background-color: #e3f2fd;
+          color: #1976d2;
+        }
+
+        &.role-2 {
+          // Admin
+          background-color: #fff3e0;
+          color: #f57c00;
+        }
+
+        &.role-3 {
+          // Manager
+          background-color: #fce4ec;
+          color: #c2185b;
+        }
+
+        &.role-4 {
+          // Employee
+          background-color: #f3e5f5;
+          color: #7b1fa2;
+        }
+
+        &.role-5 {
+          // Chef
+          background-color: #e8f5e8;
+          color: #388e3c;
+        }
+
+        &.role-6 {
+          // Guest
+          background-color: #f5f5f5;
+          color: #616161;
+        }
+      }
+
+      // Status badge styling
+      .status-badge {
+        display: inline-block;
+        padding: vars.$spacing-xs vars.$spacing-sm;
+        border-radius: vars.$border-radius-sm;
+        font-size: vars.$font-size-xs;
+        font-weight: vars.$font-weight-medium;
+        text-transform: uppercase;
+        white-space: nowrap;
+
+        &.active {
+          background-color: #e8f5e8;
+          color: #2e7d32;
+        }
+
+        &.inactive {
+          background-color: #ffebee;
+          color: #c62828;
+        }
+      }
+
+      // Actions styling
+      .actions-buttons {
+        display: flex;
+        gap: vars.$spacing-xs;
+        justify-content: center;
+
+        button[mat-icon-button] {
+          width: 36px;
+          height: 36px;
+
+          mat-icon {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+
+    // No data styling
+    .no-data {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: vars.$spacing-2xl;
+      color: var(--text-secondary);
+
+      mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+        margin-bottom: vars.$spacing-md;
+        color: var(--text-disabled);
+      }
+
+      p {
+        font-size: vars.$font-size-lg;
+        margin-bottom: vars.$spacing-xs;
+      }
+
+      small {
+        font-size: vars.$font-size-sm;
+        color: var(--text-disabled);
+      }
+    }
+
+    // Paginator styling
+    mat-paginator {
+      border-top: 1px solid var(--divider);
+      background-color: var(--surface);
+
+      // Customize paginator display
+      .mat-mdc-paginator-range-label {
+        color: var(--text-secondary);
+        font-size: vars.$font-size-sm;
+      }
+
+      .mat-mdc-paginator-page-size-label {
+        color: var(--text-secondary);
+        font-size: vars.$font-size-sm;
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 1200px) {
+  .users-container {
+    .table-container .users-table {
+      // Hide less important columns on smaller screens
+      .mat-column-phone,
+      .mat-column-updatedDate {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .users-container {
+    padding: vars.$spacing-md;
+
+    .table-container .users-table {
+      .mat-column-createdDate {
+        display: none;
+      }
+
+      // Responsive email column width for mobile
+      .email-header,
+      .mat-column-email {
+        width: 280px;
+        min-width: 220px;
+      }
+
+      // Keep avatar column consistent on mobile
+      .avatar-header,
+      .mat-column-avatar {
+        width: 100px;
+        min-width: 100px;
+        max-width: 100px;
+        text-align: center;
+
+        .mat-sort-header-container {
+          justify-content: center;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .users-container {
+    padding: vars.$spacing-sm;
+
+    .table-container .users-table {
+      .mat-column-role {
+        display: none;
+      }
+
+      // Further adjust email column on very small screens
+      .email-header,
+      .mat-column-email {
+        width: 240px;
+        min-width: 180px;
+      }
+
+      // Maintain avatar column consistency
+      .avatar-header,
+      .mat-column-avatar {
+        width: 100px;
+        min-width: 100px;
+        max-width: 100px;
+        text-align: center;
+
+        .mat-sort-header-container {
+          justify-content: center;
+        }
+      }
+    }
+  }
+}

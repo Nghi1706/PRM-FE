@@ -8,7 +8,7 @@
   <!-- User Info -->
   <div class="user-info" *ngIf="userInfo.role">
     <span class="role-badge">{{ roleInfo }}</span>
-    <span class="user-id" *ngIf="userInfo.restaurantId">Restaurant: {{ userInfo.restaurantId }}</span>
+    <!-- <span class="user-id" *ngIf="userInfo.restaurantId">Restaurant: {{ userInfo.restaurantId }}</span> -->
   </div>
 
   <!-- User Menu -->
@@ -17,13 +17,13 @@
   </button>
 
   <mat-menu #userMenu="matMenu">
-    <div class="user-menu-header">
+    <!-- <div class="user-menu-header">
       <div class="user-details">
         <div class="role">{{ roleInfo }}</div>
         <div class="user-id" *ngIf="userInfo.userId">ID: {{ userInfo.userId }}</div>
         <div class="restaurant-id" *ngIf="userInfo.restaurantId">Restaurant: {{ userInfo.restaurantId }}</div>
       </div>
-    </div>
+    </div> -->
     <mat-divider></mat-divider>
     <button mat-menu-item (click)="logout()">
       <mat-icon>logout</mat-icon>

@@ -1,0 +1,135 @@
+<div class="users-container">
+  <!-- Actions Bar -->
+  <div class="actions-bar">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search users</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search by name, email..." />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="addUser()">
+      <mat-icon>add</mat-icon>
+      Add User
+    </button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading users...</p>
+  </div>
+
+  <!-- Users Table -->
+  <div class="table-container" *ngIf="!loading">
+    <mat-table [dataSource]="dataSource" matSort class="users-table">
+      <!-- Avatar Column -->
+      <ng-container matColumnDef="avatar">
+        <mat-header-cell *matHeaderCellDef class="avatar-header">Avatar</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div class="avatar-container">
+            <img
+              [src]="getAvatarUrl(user.m05Avatar)"
+              [alt]="user.m05Name"
+              class="user-avatar"
+              onerror="this.src='/assets/images/default-avatar.svg'"
+            />
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div class="user-name">{{ user.m05Name }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+        <mat-cell *matCellDef="let user" class="email-cell">
+          <div class="user-email">{{ user.m05Email }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Phone Column -->
+      <ng-container matColumnDef="phone">
+        <mat-header-cell *matHeaderCellDef>Phone</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div class="user-phone">{{ user.m05Phone }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Role Column -->
+      <ng-container matColumnDef="role">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Role</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <span class="role-badge" [class]="'role-' + user.m05RoleId" [attr.data-role]="getRoleName(user.m05RoleId)">
+            {{ getRoleName(user.m05RoleId) }}
+          </span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <span class="status-badge" [class.active]="user.m05IsActive" [class.inactive]="!user.m05IsActive">
+            {{ user.m05IsActive ? "Active" : "Inactive" }}
+          </span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Created Date Column -->
+      <ng-container matColumnDef="createdDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Created</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div class="date-cell">{{ formatDate(user.m05CreatedAt) }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Updated Date Column -->
+      <ng-container matColumnDef="updatedDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Updated</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div class="date-cell">{{ formatDate(user.m05UpdatedAt) }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef class="actions-header">Actions</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div class="actions-buttons">
+            <button mat-icon-button color="primary" (click)="editUser(user)" matTooltip="Edit user">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteUser(user)" matTooltip="Delete user">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Table Header & Rows -->
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+      <!-- No Data Row -->
+      <div class="no-data" *matNoDataRow>
+        <mat-icon>people_outline</mat-icon>
+        <p>No users found</p>
+        <small>Try adjusting your search criteria</small>
+      </div>
+    </mat-table>
+
+    <!-- Paginator -->
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20, 50]"
+      [pageSize]="10"
+      showFirstLastButtons
+      aria-label="Select page of users"
+    ></mat-paginator>
+  </div>
+</div>
