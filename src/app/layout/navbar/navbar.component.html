@@ -1,11 +1,11 @@
 <nav [class.collapsed]="collapsed">
-  <a routerLink="/dashboard">
-    <mat-icon>dashboard</mat-icon>
-    <span *ngIf="!collapsed">Dashboard</span>
+  <a
+    *ngFor="let item of availableMenuItems"
+    [routerLink]="item.route"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: false }"
+  >
+    <mat-icon>{{ item.icon }}</mat-icon>
+    <span *ngIf="!collapsed">{{ item.label }}</span>
   </a>
-  <a routerLink="/orders">
-    <mat-icon>receipt_long</mat-icon>
-    <span *ngIf="!collapsed">Orders</span>
-  </a>
-  <!-- Thêm các menu khác nếu cần -->
 </nav>
