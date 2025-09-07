@@ -1,3 +1,5 @@
+import { UserRole } from '../constants/roles';
+
 export interface User {
   id: string;
   userName: string;
@@ -5,6 +7,8 @@ export interface User {
   firstName: string;
   lastName: string;
   roles: string[];
+  roleId?: UserRole; // Add role ID from JWT
+  restaurantId?: string; // Add restaurant ID from JWT
 }
 
 export interface LoginRequest {
@@ -14,6 +18,6 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   user: User;
-  access_token: string;
-  refresh_token: string;
+  accessToken: string;
+  refreshToken: string;
 }

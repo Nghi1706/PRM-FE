@@ -4,37 +4,106 @@ import { AuthGuard } from './guards/auth.guard';
 import { LayoutComponent } from './layout/layout.component';
 
 const routes: Routes = [
-  // Auth routes (không dùng layout) - thêm prefix 'auth'
+  // Auth routes (không dùng layout)
   {
     path: 'auth',
     loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule),
   },
-  // Protected routes (dùng layout)
+  // Protected routes (dùng layout) - tất cả đều dùng AuthGuard với permission check
   {
     path: '',
     canActivate: [AuthGuard],
     component: LayoutComponent,
     children: [
+      // System Management (Develop role)
       {
         path: 'dashboard',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
       },
       {
+        path: 'restaurants',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./pages/restaurants/restaurants.module').then(m => m.RestaurantsModule),
+      },
+      {
+        path: 'system-management',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./pages/system-management/system-management.module').then(
+            m => m.SystemManagementModule
+          ),
+      },
+
+      // Restaurant Management
+      {
+        path: 'orders',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('./pages/orders/orders.module').then(m => m.OrdersModule),
+      },
+      {
+        path: 'menu',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('./pages/menu/menu.module').then(m => m.MenuModule),
+      },
+      {
+        path: 'tables',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('./pages/tables/tables.module').then(m => m.TablesModule),
+      },
+      {
+        path: 'inventory',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./pages/inventory/inventory.module').then(m => m.InventoryModule),
+      },
+      {
+        path: 'users',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule),
+      },
+      {
+        path: 'reports',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('./pages/reports/reports.module').then(m => m.ReportsModule),
+      },
+      {
+        path: 'settings',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsModule),
+      },
+
+      // Kitchen Management (Chef role)
+      {
+        path: 'kitchen',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('./pages/kitchen/kitchen.module').then(m => m.KitchenModule),
+      },
+
+      // Guest/Customer
+      {
+        path: 'cart',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('./pages/cart/cart.module').then(m => m.CartModule),
+      },
+
+      {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'dashboard', // Will be handled by AuthGuard to redirect to appropriate default page
         pathMatch: 'full',
       },
     ],
   },
-  // Redirect tất cả các auth routes cũ
+  // Redirect old auth routes
   {
     path: 'login',
     redirectTo: 'auth/login',
   },
   {
     path: '**',
-    redirectTo: 'dashboard',
+    redirectTo: '',
   },
 ];
 
