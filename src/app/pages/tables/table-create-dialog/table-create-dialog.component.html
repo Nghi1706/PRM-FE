@@ -1,0 +1,48 @@
+<div class="create-table-dialog">
+  <mat-dialog-content>
+    <h2 mat-dialog-title>Add New Table</h2>
+    
+    <form [formGroup]="tableForm" class="table-form">
+      <!-- Name Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Table Name</mat-label>
+        <input matInput formControlName="name" placeholder="Enter table name" [disabled]="loading" />
+        <mat-icon matSuffix>table_restaurant</mat-icon>
+        <mat-error *ngIf="f['name'].hasError('required')">Table name is required</mat-error>
+        <mat-error *ngIf="f['name'].hasError('minlength')">Name must be at least 2 characters</mat-error>
+        <mat-error *ngIf="f['name'].hasError('maxlength')">Name must not exceed 50 characters</mat-error>
+      </mat-form-field>
+
+      <!-- Total Seats Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Total Seats</mat-label>
+        <input matInput type="number" formControlName="totalSeats" placeholder="Enter number of seats" [disabled]="loading" />
+        <mat-icon matSuffix>group</mat-icon>
+        <mat-error *ngIf="f['totalSeats'].hasError('required')">Total seats is required</mat-error>
+        <mat-error *ngIf="f['totalSeats'].hasError('min')">Total seats must be at least 1</mat-error>
+        <mat-error *ngIf="f['totalSeats'].hasError('max')">Total seats cannot exceed 20</mat-error>
+      </mat-form-field>
+
+      <!-- Active Status Checkbox -->
+      <div class="checkbox-field">
+        <mat-checkbox formControlName="isActive" [disabled]="loading">Active Table</mat-checkbox>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="onCancel()" class="cancel-button" [disabled]="loading">Cancel</button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="onCreate()"
+      [disabled]="tableForm.invalid || loading"
+      class="create-button"
+    >
+      <mat-spinner diameter="20" *ngIf="loading" style="margin-right: 8px"></mat-spinner>
+      <mat-icon *ngIf="!loading">add</mat-icon>
+      {{ loading ? 'Creating...' : 'Create Table' }}
+    </button>
+  </mat-dialog-actions>
+</div>

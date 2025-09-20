@@ -1,0 +1,209 @@
+@use '../../../styles/variables' as vars;
+
+.categories-container {
+  // padding: vars.$spacing-lg;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  .actions-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: vars.$spacing-lg;
+    gap: vars.$spacing-md;
+
+    .search-field {
+      flex: 1;
+      max-width: 400px;
+      margin-bottom: 0px !important;
+      padding-bottom: 0px !important;
+    }
+
+    button[mat-raised-button] {
+      white-space: nowrap;
+      min-width: 140px;
+    }
+  }
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: vars.$spacing-2xl;
+
+    mat-spinner {
+      margin-bottom: vars.$spacing-md;
+    }
+
+    p {
+      color: var(--text-secondary);
+      margin: 0;
+    }
+  }
+
+  .table-container {
+    .categories-table {
+      width: 100%;
+      background: var(--surface);
+      border-radius: vars.$border-radius-md;
+      overflow: hidden;
+      box-shadow: var(--elevation-1);
+
+      // Column sizing
+      .mat-column-name {
+        width: 200px;
+        min-width: 180px;
+      }
+
+      .mat-column-description {
+        width: 300px;
+        min-width: 250px;
+      }
+
+      .mat-column-status {
+        width: 100px;
+        min-width: 80px;
+      }
+
+      .mat-column-createdDate,
+      .mat-column-updatedDate {
+        width: 140px;
+        min-width: 120px;
+      }
+
+      .actions-header,
+      .mat-column-actions {
+        width: 120px;
+        min-width: 100px;
+        text-align: center;
+
+        .mat-sort-header-container {
+          justify-content: center;
+        }
+      }
+
+      // Text styling
+      .category-name {
+        font-weight: vars.$font-weight-medium;
+        color: var(--text-primary);
+      }
+
+      .category-description {
+        color: var(--text-secondary);
+        max-width: 250px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .date-cell {
+        font-size: vars.$font-size-sm;
+        color: var(--text-secondary);
+      }
+
+      // Status badge styling
+      .status-badge {
+        display: inline-block;
+        padding: vars.$spacing-xs vars.$spacing-sm;
+        border-radius: vars.$border-radius-sm;
+        font-size: vars.$font-size-xs;
+        font-weight: vars.$font-weight-medium;
+        text-transform: uppercase;
+        white-space: nowrap;
+
+        &.active {
+          background-color: #e8f5e8;
+          color: #2e7d32;
+        }
+
+        &.inactive {
+          background-color: #ffebee;
+          color: #c62828;
+        }
+      }
+
+      // Actions styling
+      .actions-buttons {
+        display: flex;
+        gap: vars.$spacing-xs;
+        justify-content: center;
+
+        button[mat-icon-button] {
+          width: 36px;
+          height: 36px;
+
+          mat-icon {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+
+    // No data styling
+    .no-data {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: vars.$spacing-2xl;
+      color: var(--text-secondary);
+
+      mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+        margin-bottom: vars.$spacing-md;
+        color: var(--text-disabled);
+      }
+
+      p {
+        margin: 0 0 vars.$spacing-xs 0;
+        font-size: vars.$font-size-lg;
+        font-weight: vars.$font-weight-medium;
+      }
+
+      small {
+        font-size: vars.$font-size-sm;
+        opacity: 0.7;
+      }
+    }
+
+    // Paginator styling
+    mat-paginator {
+      background: var(--surface);
+      border-top: 1px solid var(--divider);
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .categories-container {
+    padding: vars.$spacing-md;
+
+    .actions-bar {
+      flex-direction: column;
+      align-items: stretch;
+
+      .search-field {
+        max-width: none;
+        margin-bottom: vars.$spacing-sm;
+      }
+    }
+
+    .table-container .categories-table {
+      font-size: vars.$font-size-sm;
+
+      .mat-column-description {
+        display: none;
+      }
+
+      .mat-column-createdDate,
+      .mat-column-updatedDate {
+        width: 100px;
+        min-width: 90px;
+      }
+    }
+  }
+}

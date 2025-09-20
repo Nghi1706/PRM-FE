@@ -1,11 +1,13 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { UserEntity } from '../../interface/user';
+import { UserCreateDialogResult, UserEntity } from '../../interface/user';
 import { UserService } from '../../services/user.service';
+import { UserCreateDialogComponent } from './user-create-dialog/user-create-dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -34,7 +36,8 @@ export class UsersComponent implements OnInit, AfterViewInit {
 
   constructor(
     private userService: UserService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -71,7 +74,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
         this.sort.direction = 'asc';
         this.sort.sortChange.emit();
       }
-    });
+    }, 500);
     // this.dataSource.paginator = this.paginator;
     // this.dataSource.sort = this.sort;
 
@@ -138,7 +141,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
    */
   getAvatarUrl(avatar: string): string {
     if (avatar && avatar !== 'noname' && avatar !== 'no_avata') {
-      return `/assets/avatars/${avatar}`;
+      return avatar;
     }
     return '/assets/images/default-avatar.svg';
   }
@@ -193,8 +196,31 @@ export class UsersComponent implements OnInit, AfterViewInit {
    * Add new user
    */
   addUser(): void {
-    console.log('Add new user');
-    this.toastr.info('Add new user', 'Action');
-    // TODO: Implement add dialog
+    const dialogRef = this.dialog.open(UserCreateDialogComponent, {
+      width: '600px',
+      maxWidth: '95vw',
+      disableClose: false,
+      autoFocus: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result: UserCreateDialogResult | undefined) => {
+      if (result && result.action === 'created') {
+        console.log('User created successfully:', result.user);
+
+        // Add new user to the beginning of the current data
+        const currentData = this.dataSource.data;
+        this.dataSource.data = [result.user, ...currentData];
+
+        // Update users array as well
+        this.users = [result.user, ...this.users];
+
+        // Optional: Scroll to top to show the new user
+        if (this.paginator) {
+          this.paginator.firstPage();
+        }
+
+        this.toastr.success(`User ${result.user.m05Name} added to the list`, 'User Added');
+      }
+    });
   }
 }

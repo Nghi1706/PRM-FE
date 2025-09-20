@@ -1,0 +1,131 @@
+<div class="user-create-dialog">
+  <h2 mat-dialog-title>Create New User</h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="userForm" class="user-form">
+      <!-- Avatar Upload Section -->
+      <div class="avatar-section">
+        <div class="avatar-preview">
+          <img [src]="previewUrl || '/assets/images/default-avatar.svg'" alt="Avatar preview" class="avatar-image" />
+          <div class="avatar-overlay">
+            <button type="button" mat-icon-button color="primary" (click)="fileInput.click()" [disabled]="loading">
+              <mat-icon>camera_alt</mat-icon>
+            </button>
+            <button
+              type="button"
+              mat-icon-button
+              color="warn"
+              *ngIf="previewUrl"
+              (click)="removeFile()"
+              [disabled]="loading"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+        <input
+          #fileInput
+          type="file"
+          accept="image/*"
+          (change)="onFileSelected($event)"
+          style="display: none"
+          [disabled]="loading"
+        />
+        <p class="avatar-hint">Click to upload avatar (Max 5MB)</p>
+      </div>
+
+      <!-- Form Fields -->
+      <div class="form-fields">
+        <!-- Name Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Full Name</mat-label>
+          <input
+            matInput
+            formControlName="name"
+            placeholder="Enter full name"
+            autocomplete="name"
+            [disabled]="loading"
+          />
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-error *ngIf="f['name'].hasError('required')"> Name is required </mat-error>
+          <mat-error *ngIf="f['name'].hasError('minlength')"> Name must be at least 2 characters </mat-error>
+        </mat-form-field>
+
+        <!-- Email Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            formControlName="email"
+            placeholder="Enter email address"
+            autocomplete="email"
+            [disabled]="loading"
+          />
+          <mat-icon matSuffix>email</mat-icon>
+          <mat-error *ngIf="f['email'].hasError('required')"> Email is required </mat-error>
+          <mat-error *ngIf="f['email'].hasError('email')"> Please enter a valid email address </mat-error>
+        </mat-form-field>
+
+        <!-- Password Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="password"
+            placeholder="Enter password"
+            autocomplete="new-password"
+            [disabled]="loading"
+          />
+          <mat-icon matSuffix>lock</mat-icon>
+          <mat-error *ngIf="f['password'].hasError('required')"> Password is required </mat-error>
+          <mat-error *ngIf="f['password'].hasError('minlength')"> Password must be at least 6 characters </mat-error>
+        </mat-form-field>
+
+        <!-- Phone Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Phone Number</mat-label>
+          <input
+            matInput
+            formControlName="phone"
+            placeholder="Enter phone number"
+            autocomplete="tel"
+            [disabled]="loading"
+          />
+          <mat-icon matSuffix>phone</mat-icon>
+          <mat-error *ngIf="f['phone'].hasError('required')"> Phone number is required </mat-error>
+          <mat-error *ngIf="f['phone'].hasError('pattern')"> Please enter a valid phone number </mat-error>
+        </mat-form-field>
+
+        <!-- Role Selection -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Role</mat-label>
+          <mat-select formControlName="role" [disabled]="loading">
+            <mat-option *ngFor="let role of availableRoles" [value]="role">
+              {{ getRoleName(role) }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix>admin_panel_settings</mat-icon>
+          <mat-error *ngIf="f['role'].hasError('required')"> Role is required </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="onCancel()" class="cancel-button" [disabled]="loading">Cancel</button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="onCreate()"
+      [disabled]="userForm.invalid || loading"
+      class="create-button"
+    >
+      <mat-spinner diameter="20" *ngIf="loading" style="margin-right: 8px"></mat-spinner>
+      <mat-icon *ngIf="!loading">add</mat-icon>
+      {{ loading ? "Creating..." : "Create User" }}
+    </button>
+  </mat-dialog-actions>
+</div>

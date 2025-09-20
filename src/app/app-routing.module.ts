@@ -54,6 +54,12 @@ const routes: Routes = [
         loadChildren: () => import('./pages/tables/tables.module').then(m => m.TablesModule),
       },
       {
+        path: 'table-orders',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./pages/table-orders/table-orders.module').then(m => m.TableOrdersModule),
+      },
+      {
         path: 'inventory',
         canActivate: [AuthGuard],
         loadChildren: () =>
@@ -63,6 +69,17 @@ const routes: Routes = [
         path: 'users',
         canActivate: [AuthGuard],
         loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule),
+      },
+      {
+        path: 'categories',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./pages/categories/categories.module').then(m => m.CategoriesModule),
+      },
+      {
+        path: 'dishes',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('./pages/dishes/dishes.module').then(m => m.DishesModule),
       },
       {
         path: 'reports',

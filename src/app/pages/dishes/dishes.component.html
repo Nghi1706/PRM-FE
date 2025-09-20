@@ -1,0 +1,163 @@
+<div class="dishes-container">
+  <!-- Actions Bar -->
+  <div class="actions-bar">
+    <!-- Search and Add Button Row -->
+    <div class="search-add-row">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search dishes</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search by name, description..." />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="addDish()"
+        [disabled]="!selectedCategoryId || loadingCategories"
+      >
+        <mat-icon>add</mat-icon>
+        Add Dish
+      </button>
+    </div>
+  </div>
+  <!-- Category Selection Row -->
+  <div class="category-row">
+    <mat-form-field appearance="outline" class="category-select">
+      <mat-label>Select Category</mat-label>
+      <mat-select [(value)]="selectedCategoryId" (selectionChange)="onCategoryChange()" [disabled]="loadingCategories">
+        <mat-option *ngFor="let category of categories" [value]="category.m06Id">
+          {{ category.m06Name }}
+        </mat-option>
+      </mat-select>
+      <mat-icon matSuffix>category</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="loading-container" *ngIf="loading || loadingCategories">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>{{ loadingCategories ? "Loading categories..." : "Loading dishes..." }}</p>
+  </div>
+
+  <!-- Dishes Table -->
+  <div class="table-container" *ngIf="!loading && !loadingCategories">
+    <mat-table [dataSource]="dataSource" matSort class="dishes-table">
+      <!-- Image Column -->
+      <ng-container matColumnDef="image">
+        <mat-header-cell *matHeaderCellDef class="image-header">Image</mat-header-cell>
+        <mat-cell *matCellDef="let dish" class="image-cell">
+          <div class="dish-image-container">
+            <img [src]="getDishImageUrl(dish.m07Image)" [alt]="dish.m07Name" class="dish-image" />
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+        <mat-cell *matCellDef="let dish">
+          <div class="dish-name">{{ dish.m07Name }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Description Column -->
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+        <mat-cell *matCellDef="let dish">
+          <div class="dish-description" [title]="dish.m07Description">
+            {{ dish.m07Description | slice: 0 : 50
+            }}{{ dish.m07Description && dish.m07Description.length > 50 ? "..." : "" }}
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Price Column -->
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Price</mat-header-cell>
+        <mat-cell *matCellDef="let dish">
+          <div class="dish-price">{{ formatPrice(dish.m07Price) }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Category Column -->
+      <ng-container matColumnDef="category">
+        <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
+        <mat-cell *matCellDef="let dish">
+          <span class="category-badge">{{ getCategoryName(dish.m07CategoryId) }}</span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+        <mat-cell *matCellDef="let dish">
+          <span class="status-badge" [class.active]="dish.m07IsActive" [class.inactive]="!dish.m07IsActive">
+            {{ dish.m07IsActive ? "Active" : "Inactive" }}
+          </span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Created Date Column -->
+      <ng-container matColumnDef="createdDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Created</mat-header-cell>
+        <mat-cell *matCellDef="let dish">
+          <div class="date-cell">{{ formatDate(dish.m07CreatedAt) }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Updated Date Column -->
+      <ng-container matColumnDef="updatedDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Updated</mat-header-cell>
+        <mat-cell *matCellDef="let dish">
+          <div class="date-cell">{{ formatDate(dish.m07UpdatedAt) }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef class="actions-header">Actions</mat-header-cell>
+        <mat-cell *matCellDef="let dish">
+          <div class="actions-buttons">
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="editDish(dish)"
+              [disabled]="loading"
+              matTooltip="Edit dish"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="deleteDish(dish)"
+              [disabled]="loading"
+              matTooltip="Delete dish"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Table Headers and Rows -->
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+
+    <!-- No Data State -->
+    <div class="no-data" *ngIf="dishes.length === 0">
+      <mat-icon>restaurant_menu</mat-icon>
+      <p>No dishes found</p>
+      <small>No dishes available for the selected category. Add your first dish to get started.</small>
+    </div>
+
+    <!-- Paginator -->
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20, 50]"
+      [pageSize]="10"
+      showFirstLastButtons
+      aria-label="Select page of dishes"
+    ></mat-paginator>
+  </div>
+</div>

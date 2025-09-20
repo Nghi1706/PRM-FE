@@ -1,0 +1,108 @@
+<div class="tables-container">
+  <!-- Actions Bar -->
+  <div class="actions-bar">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search tables</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search by name, status..." />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="addTable()" *ngIf="canManageTables()">
+      <mat-icon>add</mat-icon>
+      Add Table
+    </button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading tables...</p>
+  </div>
+
+  <!-- Tables Table -->
+  <div class="table-container" *ngIf="!loading">
+    <mat-table [dataSource]="dataSource" matSort class="tables-table">
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+        <mat-cell *matCellDef="let table">
+          <div class="table-name">{{ table.m08Name }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Total Seats Column -->
+      <ng-container matColumnDef="totalSeats">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Seats</mat-header-cell>
+        <mat-cell *matCellDef="let table">
+          <div class="table-seats">
+            <mat-icon class="seats-icon">group</mat-icon>
+            {{ table.m08TotalSeats }}
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+        <mat-cell *matCellDef="let table">
+          <span class="status-badge" [class.active]="table.m08IsActive" [class.inactive]="!table.m08IsActive">
+            {{ table.m08IsActive ? "Active" : "Inactive" }}
+          </span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Status Name Column -->
+      <ng-container matColumnDef="statusName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Current Status</mat-header-cell>
+        <mat-cell *matCellDef="let table">
+          <span class="current-status">{{ table.m02Name || "N/A" }}</span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Created Date Column -->
+      <ng-container matColumnDef="createdDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Created</mat-header-cell>
+        <mat-cell *matCellDef="let table">
+          <div class="date-cell">{{ formatDate(table.m08CreatedAt) }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Updated Date Column -->
+      <ng-container matColumnDef="updatedDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Updated</mat-header-cell>
+        <mat-cell *matCellDef="let table">
+          <div class="date-cell">{{ formatDate(table.m08UpdatedAt) }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef class="actions-header">Actions</mat-header-cell>
+        <mat-cell *matCellDef="let table">
+          <div class="actions-buttons" *ngIf="canManageTables()">
+            <button mat-icon-button color="primary" (click)="editTable(table)" matTooltip="Edit table">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteTable(table)" matTooltip="Delete table">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Table Header & Rows -->
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+      <!-- No Data Row -->
+      <div class="no-data" *matNoDataRow>
+        <mat-icon>table_restaurant</mat-icon>
+        <p>No tables found</p>
+        <small>Try adjusting your search criteria</small>
+      </div>
+    </mat-table>
+
+    <!-- Paginator -->
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons> </mat-paginator>
+  </div>
+</div>

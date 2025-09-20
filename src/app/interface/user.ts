@@ -19,3 +19,8 @@ export interface UserListResponse {
   message: string;
   statusCode: number;
 }
+
+export interface UserCreateDialogResult {
+  action: 'created';
+  user: UserEntity;
+}

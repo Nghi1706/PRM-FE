@@ -11,6 +11,7 @@ nav {
     color 0.2s;
   box-shadow: 2px 0 8px 0 rgba(25, 118, 210, 0.04);
   border-right: 1.5px solid var(--divider);
+
   a {
     display: flex;
     align-items: center;
@@ -19,6 +20,7 @@ nav {
     text-decoration: none;
     border-radius: 6px;
     margin: 4px 8px;
+
     mat-icon {
       margin-right: 16px;
       min-width: 24px;
@@ -29,11 +31,18 @@ nav {
       font-size: 24px;
       transition: margin 0.2s;
     }
+
     &:hover {
       background: var(--primary-light);
       color: var(--primary);
       box-shadow: 0 2px 8px 0 rgba(25, 118, 210, 0.08);
     }
+
+    &.active {
+      background: var(--primary);
+      color: var(--primary-contrast);
+    }
+
     span {
       transition:
         opacity 0.2s,
@@ -41,13 +50,17 @@ nav {
       white-space: nowrap;
     }
   }
+
   &.collapsed {
     width: 60px;
+
     a {
       justify-content: center;
+
       mat-icon {
         margin-right: 0;
       }
+
       span {
         opacity: 0;
         width: 0;

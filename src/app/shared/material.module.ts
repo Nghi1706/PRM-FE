@@ -19,6 +19,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
 
 const materialModules = [
   MatButtonModule,
@@ -41,6 +42,7 @@ const materialModules = [
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
+  MatChipsModule,
 ];
 
 @NgModule({

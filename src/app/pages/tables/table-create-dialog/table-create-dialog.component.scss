@@ -1,0 +1,58 @@
+@use '../../../../styles/variables' as vars;
+
+.create-table-dialog {
+  .mat-dialog-content {
+    padding: vars.$spacing-lg;
+    min-width: 500px;
+    max-width: 600px;
+
+    h2 {
+      margin: 0 0 vars.$spacing-lg 0;
+      color: var(--text-primary);
+      font-weight: vars.$font-weight-medium;
+    }
+
+    .table-form {
+      display: flex;
+      flex-direction: column;
+      gap: vars.$spacing-md;
+
+      .full-width {
+        width: 100%;
+      }
+
+      .checkbox-field {
+        margin-top: vars.$spacing-sm;
+        
+        mat-checkbox {
+          color: var(--text-primary);
+        }
+      }
+    }
+  }
+
+  .mat-dialog-actions {
+    padding: vars.$spacing-md vars.$spacing-lg;
+    gap: vars.$spacing-sm;
+
+    .cancel-button {
+      color: var(--text-secondary);
+    }
+
+    .create-button {
+      min-width: 140px;
+
+      mat-spinner {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .create-table-dialog .mat-dialog-content {
+    min-width: 300px;
+    padding: vars.$spacing-md;
+  }
+}

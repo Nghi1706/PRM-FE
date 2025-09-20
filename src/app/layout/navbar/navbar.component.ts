@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { PermissionService } from '../../services/permission.service';
 
 interface NavItem {
@@ -37,7 +37,20 @@ export class NavbarComponent implements OnInit {
     // Restaurant Management (Admin, Manager)
     { route: '/orders', icon: 'receipt_long', label: 'Orders', page: 'orders' },
     { route: '/menu', icon: 'restaurant_menu', label: 'Menu', page: 'menu' },
-    { route: '/tables', icon: 'table_restaurant', label: 'Tables', page: 'tables' },
+    { route: '/categories', icon: 'category', label: 'Categories', page: 'categories' },
+    { route: '/dishes', icon: 'dining', label: 'Dishes', page: 'dishes' },
+
+    // Tables Management (Admin only)
+    { route: '/tables', icon: 'table_restaurant', label: 'Tables Management', page: 'tables' },
+
+    // Table Orders (Employee and above)
+    {
+      route: '/table-orders',
+      icon: 'restaurant_menu',
+      label: 'Table Orders',
+      page: 'table-orders',
+    },
+
     { route: '/inventory', icon: 'inventory', label: 'Inventory', page: 'inventory' },
     { route: '/users', icon: 'people', label: 'Staff', page: 'users' },
     { route: '/reports', icon: 'analytics', label: 'Reports', page: 'reports' },
@@ -50,7 +63,10 @@ export class NavbarComponent implements OnInit {
     { route: '/cart', icon: 'shopping_cart', label: 'Cart', page: 'cart' },
   ];
 
-  constructor(private permissionService: PermissionService) {}
+  constructor(
+    private permissionService: PermissionService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loadAvailableMenuItems();

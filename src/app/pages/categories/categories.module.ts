@@ -3,18 +3,18 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from '../../shared/material.module';
-import { TableCreateDialogComponent } from './table-create-dialog/table-create-dialog.component';
-import { TablesComponent } from './tables.component';
+import { CategoriesComponent } from './categories.component';
+import { CategoryCreateDialogComponent } from './category-create-dialog/category-create-dialog.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: TablesComponent,
+    component: CategoriesComponent,
   },
 ];
 
 @NgModule({
-  declarations: [TablesComponent, TableCreateDialogComponent],
+  declarations: [CategoriesComponent, CategoryCreateDialogComponent],
   imports: [CommonModule, ReactiveFormsModule, MaterialModule, RouterModule.forChild(routes)],
 })
-export class TablesModule {}
+export class CategoriesModule {}

@@ -77,6 +77,18 @@ export class PermissionService {
   }
 
   /**
+   * Check if user has minimum required role (hierarchy aware)
+   * Lower numbers = higher permissions (Develop=1, Admin=2, etc.)
+   */
+  // hasMinimumRole(requiredRole: UserRole): boolean {
+  //   const userRole = this.getCurrentUserRole();
+  //   if (!userRole) return false;
+
+  //   // User role must be equal or lower number (higher permission) than required
+  //   return userRole <= requiredRole;
+  // }
+
+  /**
    * Check if user has any of the specified roles
    */
   hasAnyRole(roles: UserRole[]): boolean {
@@ -113,7 +125,7 @@ export class PermissionService {
    * Check if user can manage restaurant (Admin, Manager)
    */
   canManageRestaurant(): boolean {
-    return this.hasAnyRole([UserRole.Admin, UserRole.Manager]);
+    return this.hasAnyRole([UserRole.Admin, UserRole.Manager, UserRole.Develop]);
   }
 
   /**

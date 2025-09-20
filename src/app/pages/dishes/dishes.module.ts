@@ -3,18 +3,18 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from '../../shared/material.module';
-import { TableCreateDialogComponent } from './table-create-dialog/table-create-dialog.component';
-import { TablesComponent } from './tables.component';
+import { DishCreateDialogComponent } from './dish-create-dialog/dish-create-dialog.component';
+import { DishesComponent } from './dishes.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: TablesComponent,
+    component: DishesComponent,
   },
 ];
 
 @NgModule({
-  declarations: [TablesComponent, TableCreateDialogComponent],
+  declarations: [DishesComponent, DishCreateDialogComponent],
   imports: [CommonModule, ReactiveFormsModule, MaterialModule, RouterModule.forChild(routes)],
 })
-export class TablesModule {}
+export class DishesModule {}

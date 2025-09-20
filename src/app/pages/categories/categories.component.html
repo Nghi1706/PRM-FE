@@ -1,0 +1,97 @@
+<div class="categories-container">
+  <!-- Actions Bar -->
+  <div class="actions-bar">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search categories</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search by name, description..." />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="addCategory()">
+      <mat-icon>add</mat-icon>
+      Add Category
+    </button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading categories...</p>
+  </div>
+
+  <!-- Categories Table -->
+  <div class="table-container" *ngIf="!loading">
+    <mat-table [dataSource]="dataSource" matSort class="categories-table">
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+        <mat-cell *matCellDef="let category">
+          <div class="category-name">{{ category.m06Name }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Description Column -->
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+        <mat-cell *matCellDef="let category" class="description-cell">
+          <div class="category-description">{{ category.m06Description }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+        <mat-cell *matCellDef="let category">
+          <span class="status-badge" [class.active]="category.m06IsActive" [class.inactive]="!category.m06IsActive">
+            {{ category.m06IsActive ? "Active" : "Inactive" }}
+          </span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Created Date Column -->
+      <ng-container matColumnDef="createdDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Created</mat-header-cell>
+        <mat-cell *matCellDef="let category">
+          <div class="date-cell">{{ formatDate(category.m06CreatedAt) }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Updated Date Column -->
+      <ng-container matColumnDef="updatedDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Updated</mat-header-cell>
+        <mat-cell *matCellDef="let category">
+          <div class="date-cell">{{ formatDate(category.m06UpdatedAt) }}</div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef class="actions-header">Actions</mat-header-cell>
+        <mat-cell *matCellDef="let category">
+          <div class="actions-buttons">
+            <button mat-icon-button color="primary" (click)="editCategory(category)" matTooltip="Edit category">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteCategory(category)" matTooltip="Delete category">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Table Header & Rows -->
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+      <!-- No Data Row -->
+      <div class="no-data" *matNoDataRow>
+        <mat-icon>category</mat-icon>
+        <p>No categories found</p>
+        <small>Try adjusting your search criteria</small>
+      </div>
+    </mat-table>
+
+    <!-- Paginator -->
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons> </mat-paginator>
+  </div>
+</div>
