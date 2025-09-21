@@ -6,10 +6,15 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { CategoryEntity } from '../../interface/category';
-import { DishEntity, DishCreateDialogResult } from '../../interface/dish';
+import { DishCreateDialogResult, DishEntity } from '../../interface/dish';
 import { CategoryService } from '../../services/category.service';
 import { DishService } from '../../services/dish.service';
 import { DishCreateDialogComponent } from './dish-create-dialog/dish-create-dialog.component';
+import { DishDeleteDialogComponent, DishDeleteDialogResult } from './dish-delete-dialog/dish-delete-dialog.component';
+import {
+  DishEditDialogComponent,
+  DishEditDialogResult,
+} from './dish-edit-dialog/dish-edit-dialog.component';
 
 @Component({
   selector: 'app-dishes',
@@ -283,31 +288,62 @@ export class DishesComponent implements OnInit, AfterViewInit {
    * Edit dish
    */
   editDish(dish: DishEntity): void {
-    console.log('Edit dish:', dish);
-    this.toastr.info(`Edit dish: ${dish.m07Name}`, 'Action');
-    // TODO: Implement edit dialog
+    const dialogRef = this.dialog.open(DishEditDialogComponent, {
+      width: '700px',
+      maxWidth: '95vw',
+      disableClose: false,
+      autoFocus: true,
+      data: {
+        dish: dish,
+        categories: this.categories,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: DishEditDialogResult | undefined) => {
+      if (result && result.action === 'updated') {
+        console.log('Dish updated successfully:', result.dish);
+
+        // Update the dish in current data
+        const currentData = this.dataSource.data;
+        const index = currentData.findIndex(d => d.m07Id === result.dish.m07Id);
+        if (index !== -1) {
+          currentData[index] = result.dish;
+          this.dataSource.data = [...currentData];
+          this.dishes = [...currentData];
+        }
+
+        this.toastr.success(`Dish ${result.dish.m07Name} updated successfully`, 'Dish Updated');
+      }
+    });
   }
 
   /**
    * Delete dish
    */
   deleteDish(dish: DishEntity): void {
-    console.log('Delete dish:', dish);
-    if (confirm(`Are you sure you want to delete dish: ${dish.m07Name}?`)) {
-      this.dishService.deleteDish(dish.m07Id).subscribe({
-        next: response => {
-          if (response.isSuccess) {
-            this.toastr.success(`Dish ${dish.m07Name} deleted successfully`, 'Success');
-            this.loadDishes(); // Reload the list
-          } else {
-            this.toastr.error(response.message, 'Error');
-          }
-        },
-        error: error => {
-          console.error('Error deleting dish:', error);
-          this.toastr.error('Failed to delete dish', 'Error');
-        },
-      });
-    }
+    const dialogRef = this.dialog.open(DishDeleteDialogComponent, {
+      width: '500px',
+      maxWidth: '95vw',
+      disableClose: false,
+      autoFocus: true,
+      data: {
+        dish: dish,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: DishDeleteDialogResult | undefined) => {
+      if (result && result.action === 'deleted') {
+        console.log('Dish deleted successfully:', result.dish);
+        
+        // Remove from local data
+        const currentData = this.dataSource.data;
+        const filteredData = currentData.filter(d => d.m07Id !== result.dish.m07Id);
+        this.dataSource.data = filteredData;
+        this.dishes = filteredData;
+
+        // Note: API should return updated dish with isActive: false instead of removing
+        // For now, we're removing from local data to match expected behavior
+      }
+    });
   }
 }

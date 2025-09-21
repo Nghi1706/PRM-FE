@@ -1,0 +1,52 @@
+<div class="category-edit-dialog">
+  <h2 mat-dialog-title>Edit Category</h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="categoryForm" class="category-form">
+      <!-- Name Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Category Name</mat-label>
+        <input matInput formControlName="name" placeholder="Enter category name" [disabled]="loading" />
+        <mat-icon matSuffix>category</mat-icon>
+        <mat-error *ngIf="f['name'].hasError('required')">Category name is required</mat-error>
+        <mat-error *ngIf="f['name'].hasError('minlength')">Name must be at least 2 characters</mat-error>
+        <mat-error *ngIf="f['name'].hasError('maxlength')">Name must not exceed 100 characters</mat-error>
+      </mat-form-field>
+
+      <!-- Description Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          formControlName="description"
+          placeholder="Enter category description (optional)"
+          rows="3"
+          [disabled]="loading"
+        ></textarea>
+        <mat-icon matSuffix>description</mat-icon>
+        <mat-error *ngIf="f['description'].hasError('maxlength')">Description must not exceed 500 characters</mat-error>
+      </mat-form-field>
+
+      <!-- Active Status Checkbox -->
+      <div class="checkbox-field">
+        <mat-checkbox formControlName="isActive" [disabled]="loading"> Active Category </mat-checkbox>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="onCancel()" class="cancel-button" [disabled]="loading">Cancel</button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="onUpdate()"
+      [disabled]="categoryForm.invalid || loading"
+      class="update-button"
+    >
+      <mat-spinner diameter="20" *ngIf="loading" style="margin-right: 8px"></mat-spinner>
+      <mat-icon *ngIf="!loading">save</mat-icon>
+      Update Category
+    </button>
+  </mat-dialog-actions>
+</div>

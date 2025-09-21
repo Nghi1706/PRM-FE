@@ -17,6 +17,16 @@ export interface CategoryCreateDialogResult {
   category: CategoryEntity;
 }
 
+export interface CategoryEditDialogResult {
+  action: 'updated';
+  category: CategoryEntity;
+}
+
+export interface CategoryDeleteDialogResult {
+  action: 'deleted';
+  category: CategoryEntity;
+}
+
 export interface CreateCategoryRequest {
   m06Name: string;
   m06Description: string;

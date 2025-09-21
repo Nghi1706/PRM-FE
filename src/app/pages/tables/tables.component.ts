@@ -9,6 +9,8 @@ import { TableCreateDialogResult, TableEntity } from '../../interface/table';
 import { PermissionService } from '../../services/permission.service';
 import { TableService } from '../../services/table.service';
 import { TableCreateDialogComponent } from './table-create-dialog/table-create-dialog.component';
+import { TableDeleteDialogComponent, TableDeleteDialogResult } from './table-delete-dialog/table-delete-dialog.component';
+import { TableEditDialogComponent, TableEditDialogResult } from './table-edit-dialog/table-edit-dialog.component';
 
 @Component({
   selector: 'app-tables',
@@ -152,32 +154,62 @@ export class TablesComponent implements OnInit, AfterViewInit {
    * Edit table
    */
   editTable(table: TableEntity): void {
-    console.log('Edit table:', table);
-    this.toastr.info(`Edit table: ${table.m08Name}`, 'Action');
-    // TODO: Implement edit dialog
+    const dialogRef = this.dialog.open(TableEditDialogComponent, {
+      width: '600px',
+      maxWidth: '95vw',
+      disableClose: false,
+      autoFocus: true,
+      data: {
+        table: table,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: TableEditDialogResult | undefined) => {
+      if (result && result.action === 'updated') {
+        console.log('Table updated successfully:', result.table);
+
+        // Update the table in current data
+        const currentData = this.dataSource.data;
+        const index = currentData.findIndex(t => t.m08Id === result.table.m08Id);
+        if (index !== -1) {
+          currentData[index] = result.table;
+          this.dataSource.data = [...currentData];
+          this.tables = [...currentData];
+        }
+
+        this.toastr.success(`Table ${result.table.m08Name} updated successfully`, 'Table Updated');
+      }
+    });
   }
 
   /**
    * Delete table
    */
   deleteTable(table: TableEntity): void {
-    console.log('Delete table:', table);
-    if (confirm(`Are you sure you want to delete table: ${table.m08Name}?`)) {
-      this.tableService.deleteTable(table.m08Id).subscribe({
-        next: response => {
-          if (response.isSuccess) {
-            this.toastr.success(`Table ${table.m08Name} deleted successfully`, 'Success');
-            this.loadTables(); // Reload the list
-          } else {
-            this.toastr.error(response.message, 'Error');
-          }
-        },
-        error: error => {
-          console.error('Error deleting table:', error);
-          this.toastr.error('Failed to delete table', 'Error');
-        },
-      });
-    }
+    const dialogRef = this.dialog.open(TableDeleteDialogComponent, {
+      width: '500px',
+      maxWidth: '95vw',
+      disableClose: false,
+      autoFocus: true,
+      data: {
+        table: table,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: TableDeleteDialogResult | undefined) => {
+      if (result && result.action === 'deleted') {
+        console.log('Table deleted successfully:', result.table);
+        
+        // Remove from local data
+        const currentData = this.dataSource.data;
+        const filteredData = currentData.filter(t => t.m08Id !== result.table.m08Id);
+        this.dataSource.data = filteredData;
+        this.tables = filteredData;
+
+        // Note: API should return updated table with isActive: false instead of removing
+        // For now, we're removing from local data to match expected behavior
+      }
+    });
   }
 
   /**

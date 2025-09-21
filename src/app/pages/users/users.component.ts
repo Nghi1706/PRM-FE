@@ -8,6 +8,8 @@ import { finalize } from 'rxjs';
 import { UserCreateDialogResult, UserEntity } from '../../interface/user';
 import { UserService } from '../../services/user.service';
 import { UserCreateDialogComponent } from './user-create-dialog/user-create-dialog.component';
+import { UserDeleteDialogComponent, UserDeleteDialogResult } from './user-delete-dialog/user-delete-dialog.component';
+import { UserEditDialogComponent, UserEditDialogResult } from './user-edit-dialog/user-edit-dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -164,32 +166,62 @@ export class UsersComponent implements OnInit, AfterViewInit {
    * Edit user
    */
   editUser(user: UserEntity): void {
-    console.log('Edit user:', user);
-    this.toastr.info(`Edit user: ${user.m05Name}`, 'Action');
-    // TODO: Implement edit dialog
+    const dialogRef = this.dialog.open(UserEditDialogComponent, {
+      width: '600px',
+      maxWidth: '95vw',
+      disableClose: false,
+      autoFocus: true,
+      data: {
+        user: user,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: UserEditDialogResult | undefined) => {
+      if (result && result.action === 'updated') {
+        console.log('User updated successfully:', result.user);
+
+        // Update the user in current data
+        const currentData = this.dataSource.data;
+        const index = currentData.findIndex(u => u.m05Id === result.user.m05Id);
+        if (index !== -1) {
+          currentData[index] = result.user;
+          this.dataSource.data = [...currentData];
+          this.users = [...currentData];
+        }
+
+        this.toastr.success(`User ${result.user.m05Name} updated successfully`, 'User Updated');
+      }
+    });
   }
 
   /**
    * Delete user
    */
   deleteUser(user: UserEntity): void {
-    console.log('Delete user:', user);
-    if (confirm(`Are you sure you want to delete user: ${user.m05Name}?`)) {
-      this.userService.deleteUser(user.m05Id).subscribe({
-        next: response => {
-          if (response.isSuccess) {
-            this.toastr.success(`User ${user.m05Name} deleted successfully`, 'Success');
-            this.loadUsers(); // Reload the list
-          } else {
-            this.toastr.error(response.message, 'Error');
-          }
-        },
-        error: error => {
-          console.error('Error deleting user:', error);
-          this.toastr.error('Failed to delete user', 'Error');
-        },
-      });
-    }
+    const dialogRef = this.dialog.open(UserDeleteDialogComponent, {
+      width: '500px',
+      maxWidth: '95vw',
+      disableClose: false,
+      autoFocus: true,
+      data: {
+        user: user,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: UserDeleteDialogResult | undefined) => {
+      if (result && result.action === 'deleted') {
+        console.log('User deleted successfully:', result.user);
+        
+        // Remove from local data
+        const currentData = this.dataSource.data;
+        const filteredData = currentData.filter(u => u.m05Id !== result.user.m05Id);
+        this.dataSource.data = filteredData;
+        this.users = filteredData;
+
+        // Note: API should return updated user with isActive: false instead of removing
+        // For now, we're removing from local data to match expected behavior
+      }
+    });
   }
 
   /**

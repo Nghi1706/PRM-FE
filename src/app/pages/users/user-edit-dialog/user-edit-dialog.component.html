@@ -1,0 +1,97 @@
+<div class="edit-user-dialog">
+  <mat-dialog-content>
+    <h2 mat-dialog-title>Edit User</h2>
+    
+    <form [formGroup]="userForm" class="user-form">
+      <!-- Avatar Upload Field -->
+      <div class="avatar-upload-field">
+        <div class="current-avatar" *ngIf="currentAvatarUrl && !previewUrl">
+          <img [src]="currentAvatarUrl" alt="Current avatar" />
+          <p>Current Avatar</p>
+        </div>
+        
+        <div class="avatar-preview" *ngIf="previewUrl">
+          <img [src]="previewUrl" alt="Preview" />
+          <button mat-icon-button type="button" (click)="removeFile()" class="remove-avatar">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        
+        <div class="upload-area" (click)="fileInput.click()" *ngIf="!previewUrl">
+          <mat-icon>account_circle</mat-icon>
+          <p>{{ currentAvatarUrl ? 'Change Avatar' : 'Upload Avatar' }}</p>
+        </div>
+        
+        <input
+          #fileInput
+          type="file"
+          accept="image/*"
+          (change)="onFileSelected($event)"
+          style="display: none"
+        />
+        <p class="avatar-hint">Click to upload user avatar (Max 5MB)</p>
+      </div>
+
+      <!-- Name Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Full Name</mat-label>
+        <input matInput formControlName="name" placeholder="Enter full name" [disabled]="loading" />
+        <mat-icon matSuffix>person</mat-icon>
+        <mat-error *ngIf="f['name'].hasError('required')">Full name is required</mat-error>
+        <mat-error *ngIf="f['name'].hasError('minlength')">Name must be at least 2 characters</mat-error>
+        <mat-error *ngIf="f['name'].hasError('maxlength')">Name must not exceed 100 characters</mat-error>
+      </mat-form-field>
+
+      <!-- Email Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="Enter email address" [disabled]="loading" />
+        <mat-icon matSuffix>email</mat-icon>
+        <mat-error *ngIf="f['email'].hasError('required')">Email is required</mat-error>
+        <mat-error *ngIf="f['email'].hasError('email')">Please enter a valid email address</mat-error>
+      </mat-form-field>
+
+      <!-- Phone Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Phone Number</mat-label>
+        <input matInput formControlName="phone" placeholder="Enter phone number" [disabled]="loading" />
+        <mat-icon matSuffix>phone</mat-icon>
+        <mat-error *ngIf="f['phone'].hasError('required')">Phone number is required</mat-error>
+        <mat-error *ngIf="f['phone'].hasError('pattern')">Please enter a valid phone number</mat-error>
+      </mat-form-field>
+
+      <!-- Role Selection -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="roleId" [disabled]="loading">
+          <mat-option *ngFor="let role of availableRoles" [value]="role">
+            {{ getRoleName(role) }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matSuffix>badge</mat-icon>
+        <mat-error *ngIf="f['roleId'].hasError('required')">Role is required</mat-error>
+      </mat-form-field>
+
+      <!-- Active Status Checkbox -->
+      <div class="checkbox-field">
+        <mat-checkbox formControlName="isActive" [disabled]="loading">Active User</mat-checkbox>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="onCancel()" class="cancel-button" [disabled]="loading">Cancel</button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="onUpdate()"
+      class="update-button"
+      [disabled]="loading || userForm.invalid"
+    >
+      <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+      <span *ngIf="!loading">Update User</span>
+      <span *ngIf="loading">Updating...</span>
+    </button>
+  </mat-dialog-actions>
+</div>

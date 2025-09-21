@@ -4,6 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from '../../shared/material.module';
 import { UserCreateDialogComponent } from './user-create-dialog/user-create-dialog.component';
+import { UserDeleteDialogComponent } from './user-delete-dialog/user-delete-dialog.component';
+import { UserEditDialogComponent } from './user-edit-dialog/user-edit-dialog.component';
 import { UsersComponent } from './users.component';
 
 const routes: Routes = [
@@ -14,7 +16,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [UsersComponent, UserCreateDialogComponent],
+  declarations: [UsersComponent, UserCreateDialogComponent, UserEditDialogComponent, UserDeleteDialogComponent],
   imports: [CommonModule, ReactiveFormsModule, MaterialModule, RouterModule.forChild(routes)],
 })
 export class UsersModule {}

@@ -8,6 +8,14 @@ import { finalize } from 'rxjs';
 import { CategoryCreateDialogResult, CategoryEntity } from '../../interface/category';
 import { CategoryService } from '../../services/category.service';
 import { CategoryCreateDialogComponent } from './category-create-dialog/category-create-dialog.component';
+import {
+  CategoryEditDialogComponent,
+  CategoryEditDialogResult,
+} from './category-edit-dialog/category-edit-dialog.component';
+import {
+  CategoryDeleteDialogComponent,
+  CategoryDeleteDialogResult,
+} from './category-delete-dialog/category-delete-dialog.component';
 
 @Component({
   selector: 'app-categories',
@@ -124,32 +132,86 @@ export class CategoriesComponent implements OnInit, AfterViewInit {
    * Edit category
    */
   editCategory(category: CategoryEntity): void {
-    console.log('Edit category:', category);
-    this.toastr.info(`Edit category: ${category.m06Name}`, 'Action');
-    // TODO: Implement edit dialog
+    const dialogRef = this.dialog.open(CategoryEditDialogComponent, {
+      width: '600px',
+      maxWidth: '95vw',
+      disableClose: false,
+      autoFocus: true,
+      data: { category },
+    });
+
+    dialogRef.afterClosed().subscribe((result: CategoryEditDialogResult | undefined) => {
+      if (result && result.action === 'updated') {
+        console.log('Category updated successfully:', result.category);
+
+        // Update the category in the current data
+        const currentData = this.dataSource.data;
+        const index = currentData.findIndex(item => item.m06Id === result.category.m06Id);
+
+        if (index !== -1) {
+          currentData[index] = result.category;
+          this.dataSource.data = [...currentData];
+
+          // Update categories array as well
+          const categoryIndex = this.categories.findIndex(
+            item => item.m06Id === result.category.m06Id
+          );
+          if (categoryIndex !== -1) {
+            this.categories[categoryIndex] = result.category;
+          }
+        }
+
+        this.toastr.success(
+          `Category ${result.category.m06Name} updated successfully`,
+          'Category Updated'
+        );
+      }
+    });
   }
 
   /**
    * Delete category
    */
   deleteCategory(category: CategoryEntity): void {
-    console.log('Delete category:', category);
-    if (confirm(`Are you sure you want to delete category: ${category.m06Name}?`)) {
-      this.categoryService.deleteCategory(category.m06Id).subscribe({
-        next: response => {
-          if (response.isSuccess) {
-            this.toastr.success(`Category ${category.m06Name} deleted successfully`, 'Success');
-            this.loadCategories(); // Reload the list
-          } else {
-            this.toastr.error(response.message, 'Error');
+    const dialogRef = this.dialog.open(CategoryDeleteDialogComponent, {
+      width: '500px',
+      maxWidth: '95vw',
+      disableClose: false,
+      autoFocus: true,
+      data: { category },
+    });
+
+    dialogRef.afterClosed().subscribe((result: CategoryDeleteDialogResult | undefined) => {
+      if (result && result.action === 'deleted') {
+        console.log('Category status updated successfully:', result.category);
+
+        // Update the category status in the current data instead of removing it
+        const currentData = this.dataSource.data;
+        const index = currentData.findIndex(item => item.m06Id === result.category.m06Id);
+
+        if (index !== -1) {
+          // Update the category status to inactive (assuming delete means set to inactive)
+          const updatedCategory = {
+            ...currentData[index],
+            m06IsActive: false,
+            m06UpdatedAt: new Date().toISOString()
+          };
+          currentData[index] = updatedCategory;
+          this.dataSource.data = [...currentData];
+
+          // Update categories array as well
+          const categoryIndex = this.categories.findIndex(item => item.m06Id === result.category.m06Id);
+          if (categoryIndex !== -1) {
+            this.categories[categoryIndex] = updatedCategory;
           }
-        },
-        error: error => {
-          console.error('Error deleting category:', error);
-          this.toastr.error('Failed to delete category', 'Error');
-        },
-      });
-    }
+        }
+
+        this.toastr.success(
+          `Category ${result.category.m06Name} status updated successfully`,
+          'Category Updated'
+        );
+      }
+    });
   }
 
   /**
